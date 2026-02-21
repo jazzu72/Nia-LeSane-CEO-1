@@ -1,0 +1,15 @@
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await stripe.checkout.sessions.create({
+    mode: 'subscription',
+    payment_method_types: ['card'],
+    line_items: [{ price: 'price_1yourpriceid', quantity: 1 }],
+    success_url: `${req.headers.origin}/success`,
+    cancel_url: `${req.headers.origin}/cancel`,
+  });
+
+  res.json({ sessionId: session.id });
+}
