@@ -1,0 +1,14 @@
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+export default function UpgradeButton() {
+  const handleCheckout = async () => {
+    const stripe = await stripePromise;
+    const res = await fetch('/api/create-checkout-session', { method: 'POST' });
+    const { sessionId } = await res.json();
+    stripe?.redirectToCheckout({ sessionId });
+  };
+
+  return <button onClick={handleCheckout}>Upgrade to Unlimited ($9.99/mo)</button>;
+}
