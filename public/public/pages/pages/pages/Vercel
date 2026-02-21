@@ -1,0 +1,3 @@
+cd C:\Users\lesan\Nia-LeSane-CEO
+npm run build
+vercel --prod
