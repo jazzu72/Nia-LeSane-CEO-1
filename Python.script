@@ -1,0 +1,29 @@
+from azure.quantum import Workspace
+from azure.quantum.qiskit import AzureQuantumProvider
+from azure.identity import AzureCliCredential
+from qiskit import QuantumCircuit, execute
+
+# Authenticate
+credential = AzureCliCredential()
+workspace = Workspace(
+  subscription_id="your_subscription_id",
+  resource_group="your_resource_group",
+  name="your_workspace_name",
+  location="East US"  # Adjust to your region
+)
+
+# Provider
+provider = AzureQuantumProvider(workspace=workspace)
+
+# Circuit
+qc = QuantumCircuit(2, 2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure([0,1], [0,1])
+
+# Run on simulator
+backend = provider.get_backend("microsoft.estimator")
+job = execute(qc, backend, shots=1024)
+result = job.result()
+
+print(result.get_counts())
