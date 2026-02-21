@@ -1,0 +1,4 @@
+cd Nia-LeSane-CEO
+npm install
+npm run build
+vercel --prod
