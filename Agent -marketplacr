@@ -1,0 +1,21 @@
+const templates = [
+  { id: 'financial', name: 'Financial Oracle', desc: 'Yield optimization & tax rituals' },
+  { id: 'creative', name: 'Creative Muse', desc: 'Inspiration & music generation' },
+  { id: 'security', name: 'Security Sentinel', desc: 'Threat detection & defense' }
+];
+
+export default function AgentMarketplace() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {templates.map(t => (
+        <div key={t.id} className="p-6 bg-gray-900 rounded-xl border border-yellow-900/30">
+          <h3 className="text-xl font-bold text-yellow-400">{t.name}</h3>
+          <p className="mt-2 text-gray-300">{t.desc}</p>
+          <button className="mt-4 bg-yellow-600 text-black px-4 py-2 rounded">
+            Spawn Agent ($997)
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
