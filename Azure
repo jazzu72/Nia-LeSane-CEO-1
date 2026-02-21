@@ -1,0 +1,1 @@
+pip install azure-quantum azure-identity qiskit qiskit-aer
