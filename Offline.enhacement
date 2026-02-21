@@ -1,0 +1,11 @@
+// In fetch handler
+if (event.request.url.includes('/api/')) {
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request).then(network => {
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, network.clone()));
+        return network;
+      });
+    })
+  );
+}
