@@ -1,0 +1,4 @@
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // In real: call Grok vision or LLaVA
+  res.json({ description: "Image of a sunset over water" });
+}
