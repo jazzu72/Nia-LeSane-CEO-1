@@ -1,0 +1,29 @@
+nia-lesane-ceo/
+├── components/
+│   ├── MemoryExplorer.tsx          ← #1 Time Travel & Replay
+│   ├── GovernanceDashboard.tsx     ← #6 Full governance center
+│   ├── AgentMarketplace.tsx        ← #7 Custom agent marketplace
+│   ├── PauseControlCenter.tsx      ← Enhanced pause UI
+│   └── AnalyticsWidget.tsx         ← #6 Analytics (pause stats)
+├── api/
+│   ├── memory/
+│   │   └── replay.ts               ← #1 Memory replay endpoint
+│   ├── self-improvement/
+│   │   └── history.ts              ← #2 Audit trail endpoint
+│   ├── agent/
+│   │   └── spawn.ts                ← #7 Spawn custom agent
+│   └── governance/
+│       └── status.ts               ← Live pause state (used by widgets)
+├── pages/
+│   └── api/
+│       ├── memory/replay.ts
+│       ├── self-improvement/history.ts
+│       ├── agent/spawn.ts
+│       └── governance/status.ts
+├── public/
+│   ├── service-worker.js           ← Updated with offline caching (#8)
+│   └── offline.html                ← Enhanced offline page
+├── lib/
+│   ├── supabase.ts                 ← Realtime client (#4 Multi-user)
+│   └── twilio.ts                   ← SMS alerts stub (#9 optional)
+└── README.md                       ← Updated with new features
