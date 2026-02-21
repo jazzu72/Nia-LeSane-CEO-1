@@ -1,0 +1,2 @@
+// components/SelfImprovementHistory.tsx
+// Similar structure to PauseHistory - list of PRs with status & diff link
