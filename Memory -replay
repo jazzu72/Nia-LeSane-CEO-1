@@ -1,0 +1,27 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+// Mock storage - replace with real DB
+const memoryStore: any[] = []; // In real app: Pinecone or Supabase
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    const days = Number(req.query.days) || 30;
+    const search = (req.query.search as string) || '';
+
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+
+    const filtered = memoryStore
+      .filter(m => new Date(m.timestamp) >= cutoff)
+      .filter(m => m.invocation.toLowerCase().includes(search.toLowerCase()));
+
+    res.status(200).json(filtered);
+  } else if (req.method === 'POST') {
+    // Called by brain after each invocation
+    const { invocation, response, branch, timestamp } = req.body;
+    memoryStore.push({ invocation, response, branch, timestamp: timestamp || new Date().toISOString() });
+    res.status(201).json({ status: 'stored' });
+  } else {
+    res.status(405).end();
+  }
+}
