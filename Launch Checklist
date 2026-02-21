@@ -1,0 +1,21 @@
+Write-Host "Nia LeSane CEO Launch Checklist" -ForegroundColor Magenta
+
+$checks = @(
+  @{ Name = "Git status clean"; Command = "git status --porcelain" },
+  @{ Name = "Node deps installed"; Command = "npm list --depth=0" },
+  @{ Name = "Python deps installed"; Command = "pip list" },
+  @{ Name = "Env vars present"; Command = "Get-Content .env | Select-String 'NIA_SPECIAL_PASSWORD|STRIPE_SECRET_KEY|TELEGRAM_BOT_TOKEN'" },
+  @{ Name = "Local web runs"; Command = "npm run dev & Start-Sleep 5; Invoke-WebRequest http://localhost:3000 -UseBasicParsing" }
+)
+
+foreach ($check in $checks) {
+  Write-Host "$($check.Name)..." -NoNewline -ForegroundColor Cyan
+  try {
+    Invoke-Expression $check.Command | Out-Null
+    Write-Host "OK" -ForegroundColor Green
+  } catch {
+    Write-Host "FAIL" -ForegroundColor Red
+  }
+}
+
+Write-Host "Launch ready? Run vercel --prod" -ForegroundColor Yellow
