@@ -1,0 +1,18 @@
+// Mock storage - in production use GitHub API or DB
+const prHistory: any[] = [];
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    res.status(200).json(prHistory);
+  } else if (req.method === 'POST') {
+    // Called after reflection
+    const { prNumber, status, diffPreview } = req.body;
+    prHistory.push({
+      prNumber,
+      status,
+      diffPreview,
+      timestamp: new Date().toISOString()
+    });
+    res.status(201).json({ status: 'recorded' });
+  }
+}
