@@ -1,0 +1,51 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
+export default function MemoryExplorer() {
+  const [memories, setMemories] = useState([]);
+  const [search, setSearch] = useState('');
+  const [days, setDays] = useState(30);
+
+  useEffect(() => {
+    fetch(`/api/memory/replay?days=\( {days}&search= \){encodeURIComponent(search)}`)
+      .then(res => res.json())
+      .then(setMemories);
+  }, [days, search]);
+
+  return (
+    <div className="p-6 bg-gray-900 rounded-xl border border-yellow-900/30">
+      <h2 className="text-2xl font-bold text-yellow-400 mb-4">Memory Explorer</h2>
+      
+      <div className="flex gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search memories..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="flex-1 p-3 bg-black border border-gray-700 rounded-lg text-white"
+        />
+        <select
+          value={days}
+          onChange={e => setDays(Number(e.target.value))}
+          className="p-3 bg-black border border-gray-700 rounded-lg text-white"
+        >
+          <option value={7}>Last 7 days</option>
+          <option value={30}>Last 30 days</option>
+          <option value={90}>Last 90 days</option>
+        </select>
+      </div>
+
+      <div className="space-y-4 max-h-96 overflow-y-auto">
+        {memories.map((m: any, i) => (
+          <div key={i} className="p-4 bg-black/60 rounded-lg border border-gray-800">
+            <div className="text-sm text-gray-400">{new Date(m.timestamp).toLocaleString()}</div>
+            <div className="font-medium mt-1">{m.invocation}</div>
+            <div className="text-yellow-300 mt-2">{m.response}</div>
+            {m.branch && <div className="text-sm text-gray-500 mt-1">Branch: {m.branch}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
