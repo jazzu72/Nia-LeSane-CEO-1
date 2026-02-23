@@ -1,0 +1,43 @@
+## Expected Actor Resolution Functions  
+  
+Based on your authentication flow, each resolver would extract identity from different sources:  
+  
+**resolveSlackActor()**: Verifies Slack signature and extracts user from webhook payload  
+```typescript  
+async function resolveSlackActor(req) {  
+  // Verify x-slack-signature matches payload  
+  const payload = JSON.parse(req.body);  
+  return {  
+    id: payload.user.id,  
+    source: "slack",  
+    ip: req.headers["x-forwarded-for"]  
+  };  
+}  
+```  
+  
+**resolveJWTActor()**: Decodes JWT token to get authenticated user  
+```typescript  
+async function resolveJWTActor(req) {  
+  const token = req.headers.authorization.replace("Bearer ", "");  
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);  
+  return {  
+    id: decoded.userId,  
+    source: "web_dashboard",  
+    ip: req.headers["x-forwarded-for"]  
+  };  
+}  
+```  
+  
+**resolveCLIActor()**: Validates CLI token against stored credentials  
+```typescript  
+async function resolveCLIActor(req) {  
+  const token = req.body.cli_token;  
+  // Validate token against database  
+  return {  
+    id: "founder_cli",  
+    source: "cli",  
+    ip: req.headers["x-forwarded-for"]  
+  };  
+}  
+```  
+  
