@@ -1,0 +1,2 @@
+env:  
+  AZURE_WEBAPP_NAME: your-actual-app-name  # Change
