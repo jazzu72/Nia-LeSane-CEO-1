@@ -1,0 +1,11 @@
+ In PauseStatusWidget  
+function PauseStatusWidget() {  
+  const { state, timeRemaining } = useGovernance();  
+    
+  return (  
+    <div>  
+      <StatusBadge state={state} />  
+      {timeRemaining && <Countdown ms={timeRemaining} />}  
+    </div>  
+  );  
+}
