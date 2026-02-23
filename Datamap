@@ -1,0 +1,13 @@
+function mapToGovernanceState(pauseRecord: any): GovernanceState {  
+  if (!pauseRecord.is_paused) {  
+    return pauseRecord.council_decision === 'founder_override'   
+      ? 'ACTIVE_OVERRIDE'   
+      : 'ACTIVE';  
+  }  
+    
+  if (pauseRecord.council_decision === null) {  
+    return 'PAUSE_PENDING_COUNCIL';  
+  }  
+    
+  return 'PAUSED';  
+}
