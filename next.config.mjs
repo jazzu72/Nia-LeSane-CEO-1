@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  // Enable PWA (requires next-pwa or manual service worker)
+  experimental: {
+    typedRoutes: true
+  }
 };
 
 export default nextConfig;
